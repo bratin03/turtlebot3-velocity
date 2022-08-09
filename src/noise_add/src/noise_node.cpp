@@ -40,8 +40,7 @@ double AWGN_generator()
   return result;	// return the generated random sample to the caller
 }
 
-void writeMsg(const geometry_msgs::Twist& msg){
-    ROS_INFO_STREAM("Subscriber velocities:"<<" linear="<<msg.linear.x+AWGN_generator()<<" angular="<<msg.angular.z+AWGN_generator()<<"\n");
+void addNoise(const geometry_msgs::Twist& msg){
     a.linear.x=msg.linear.x+AWGN_generator();
     a.angular.z=msg.angular.z+AWGN_generator();
     
@@ -51,7 +50,7 @@ int main(int argc, char**argv){
 ros::init(argc, argv, "publish_velocity");
 ros::NodeHandle nh;
 
-ros::Subscriber topic_sub= nh.subscribe("/cmd_vel", 1000,writeMsg);
+ros::Subscriber topic_sub= nh.subscribe("/cmd_vel", 1000,addNoise);
 ros::Publisher pub = nh.advertise<geometry_msgs::Twist>("/vel_noise_added", 1000);
 ros::Rate loop_rate(10);
 
