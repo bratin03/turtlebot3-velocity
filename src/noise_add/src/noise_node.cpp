@@ -44,17 +44,7 @@ void writeMsg(const geometry_msgs::Twist& msg){
     ROS_INFO_STREAM("Subscriber velocities:"<<" linear="<<msg.linear.x+AWGN_generator()<<" angular="<<msg.angular.z+AWGN_generator()<<"\n");
     a.linear.x=msg.linear.x+AWGN_generator();
     a.angular.z=msg.angular.z+AWGN_generator();
-    ros::Publisher pub = nh.advertise<geometry_msgs::Twist>("/vel_noise_added", 1000);
-ros::Rate loop_rate(10);
-
-    int count = 0;
-    while (ros::ok())
-    {
-            pub.publish(a);
-            ros::spinOnce();
-            loop_rate.sleep();
-            ++count;
-    }
+    
 }
 
 int main(int argc, char**argv){
