@@ -1,0 +1,4 @@
+# Hashes of file build rules.
+5042de45fd65d20db0d82ca6bb687d87 /home/bratin/task_2/devel/share/roseus/ros/noise_add/manifest.l
+9aa59569c00a326dee4bbf27e14418ee CMakeFiles/clean_test_results
+1c6d9a686e3607c8c25e084e35b894b3 noise_add/CMakeFiles/noise_add_generate_messages_eus

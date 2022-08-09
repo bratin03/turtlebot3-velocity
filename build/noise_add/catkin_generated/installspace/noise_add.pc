@@ -1,0 +1,8 @@
+prefix=/home/bratin/task_2/install
+
+Name: noise_add
+Description: Description of noise_add
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 
