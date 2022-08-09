@@ -4,6 +4,8 @@
 
 #define PI 3.1415926536
 
+geometry_msgs::Twist a;
+
 double AWGN_generator()
 {/* Generates additive white Gaussian Noise samples with zero mean and a standard deviation of 1. */
  
@@ -40,6 +42,19 @@ double AWGN_generator()
 
 void writeMsg(const geometry_msgs::Twist& msg){
     ROS_INFO_STREAM("Subscriber velocities:"<<" linear="<<msg.linear.x+AWGN_generator()<<" angular="<<msg.angular.z+AWGN_generator()<<"\n");
+    a.linear.x=msg.linear.x+AWGN_generator();
+    a.angular.z=msg.angular.z+AWGN_generator();
+    ros::Publisher pub = nh.advertise<geometry_msgs::Twist>("/vel_noise_added", 1000);
+ros::Rate loop_rate(10);
+
+    int count = 0;
+    while (ros::ok())
+    {
+            pub.publish(a);
+            ros::spinOnce();
+            loop_rate.sleep();
+            ++count;
+    }
 }
 
 int main(int argc, char**argv){
@@ -47,7 +62,16 @@ ros::init(argc, argv, "publish_velocity");
 ros::NodeHandle nh;
 
 ros::Subscriber topic_sub= nh.subscribe("/cmd_vel", 1000,writeMsg);
+ros::Publisher pub = nh.advertise<geometry_msgs::Twist>("/vel_noise_added", 1000);
+ros::Rate loop_rate(10);
 
-    ros::spin();
+    int count = 0;
+    while (ros::ok())
+    {
+            pub.publish(a);
+            ros::spinOnce();
+            loop_rate.sleep();
+            ++count;
+    }
     return 0;
 }
